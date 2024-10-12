@@ -35,7 +35,8 @@ export class ProfileModalComponent {
   ngOnInit() {
 
     this.profileData = this.profiles.find(p => p.id === this.profileId);
-    
+    console.log(this.profileData);
+
   }
 
   // Fechar o modal

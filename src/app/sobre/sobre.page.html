@@ -9,27 +9,29 @@
 
 <ion-content class="ion-padding">
   <div class="profile-container flex flex-col justify-center items-center space-y-10">
-    <img src="assets/img/profile1.jpg" (click)="openModal(1)" class="profile-img w-1/4 h-1/4 ">
-    <img src="assets/img/profile2.png" (click)="openModal(2)" class="profile-img w-1/4 h-1/4 ">
-    <img src="assets/img/profile3.png" (click)="openModal(3)" class="profile-img w-1/4 h-1/4 ">
+    <img src="assets/img/profile1.jpg" (click)="openModal(1)" class="profile-img w-1/4 h-1/4">
+    <img src="assets/img/profile2.png" (click)="openModal(2)" class="profile-img w-1/4 h-1/4">
+    <img src="assets/img/profile3.png" (click)="openModal(3)" class="profile-img w-1/4 h-1/4">
   </div>
 </ion-content>
 
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="tab1" routerLink="/tabs/tab1">
-      <ion-icon name="home" color="primary"></ion-icon>
-      <ion-label>Tab 1</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="tab2" routerLink="/tabs/tab2">
-      <ion-icon name="book" color="primary"></ion-icon>
-      <ion-label>Tab 2</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="tab3" routerLink="/tabs/tab3">
-      <ion-icon name="create" color="primary"></ion-icon>
-      <ion-label>Tab 3</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="tab1" routerLink="/tabs/tab1">
+          <ion-icon name="home" color="primary"></ion-icon>
+          <ion-label>Tab 1</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="tab2" routerLink="/tabs/tab2">
+          <ion-icon name="book" color="primary"></ion-icon>
+          <ion-label>Tab 2</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="tab3" routerLink="/tabs/tab3">
+          <ion-icon name="create" color="primary"></ion-icon>
+          <ion-label>Tab 3</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

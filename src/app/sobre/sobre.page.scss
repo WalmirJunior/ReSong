@@ -5,9 +5,12 @@
 //   margin-top: 20px;
 // }
 
+
 .profile-img {
   width: 150px;
   height: 150px;
   border-radius: 50%!important;
   object-fit: cover!important; /* Isso garante que a imagem seja cortada para se ajustar ao círculo */
+  cursor: pointer; /* Muda o cursor ao passar sobre a imagem */
+  pointer-events: auto; /* Garante que as imagens respondam a cliques */
 }
