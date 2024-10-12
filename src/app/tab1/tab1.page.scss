@@ -1,0 +1,6 @@
+.user-icon {
+  width: 50px; /* ou o tamanho que preferir */
+  height: 50px;
+  border-radius: 50%; /* para garantir que seja circular */
+  object-fit: cover; /* para garantir que a imagem se ajuste sem distorcer */
+}

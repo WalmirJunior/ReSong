@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Sobre Nós</ion-title>
+  <ion-toolbar class="text-center">
+    <ion-title color="primary">Sobre Nós</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,3 +14,22 @@
     <img src="assets/img/profile3.png" (click)="openModal(3)" class="profile-img w-1/4 h-1/4 ">
   </div>
 </ion-content>
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="tab1" routerLink="/tabs/tab1">
+      <ion-icon name="home" color="primary"></ion-icon>
+      <ion-label>Tab 1</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab2" routerLink="/tabs/tab2">
+      <ion-icon name="book" color="primary"></ion-icon>
+      <ion-label>Tab 2</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab3" routerLink="/tabs/tab3">
+      <ion-icon name="create" color="primary"></ion-icon>
+      <ion-label>Tab 3</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
