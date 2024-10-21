@@ -8,150 +8,42 @@
 </ion-header>
 
 <ion-content class="ion-padding bg-black text-white">
-
-  <!-- Card de Avaliação de Álbuns -->
   <div class="review-container space-y-4">
 
     <!-- Repetir esta estrutura para cada avaliação -->
-    <div class="review-card p-4 bg-zinc-800 rounded-lg">
-
+    <div *ngFor="let review of albumReviews" class="review-card p-4 bg-zinc-800 rounded-lg">
 
       <!-- Ícone do usuário -->
       <div class="flex items-center mb-8">
-        <!-- <ion-icon name="person-circle-outline" size="large" color="primary" class="mr-4"></ion-icon> -->
-        <img src="../../assets/img/profile1.jpg" alt="" class=" user-icon ">
-        <p class="ml-3">Junin Taylor's Version</p>
+        <img [src]="review.userImage" alt="Ícone do usuário" class="user-icon w-12 h-12 rounded-full">
+        <p class="ml-3">{{ review.user }}</p>
       </div>
+
       <!-- Conteúdo da avaliação -->
       <div class="review-content">
-
-        <!-- Header com capa e detalhes do álbum -->
         <div class="flex items-center mb-2">
+          <!-- Imagem do álbum -->
           <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
-            <!-- Placeholder da capa do álbum -->
-            capa
+            <img [src]="review.albumImage || 'assets/img/placeholder.png'" alt="Capa do Álbum" class="w-full h-full object-cover">
           </div>
           <div>
-            <h3 class="text-lg font-semibold">The Tortured Poets Department</h3>
-            <p class="text-sm text-gray-400">Taylor Swift</p>
+            <h3 class="text-lg font-semibold">{{ review.album }}</h3>
+            <p class="text-sm text-gray-400">{{ review.artist }}</p>
           </div>
         </div>
 
         <!-- Estrelas de Avaliação -->
         <div class="stars mb-2">
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
+          <ion-icon *ngFor="let star of [].constructor(review.stars)" name="star" class="text-yellow-400"></ion-icon>
         </div>
 
         <!-- Descrição da Avaliação -->
         <p class="text-sm">
-          Este é o melhor álbum que já ouvi e adorei cada segundo dele. Taylor se reinventou com este, soando muito diferente de como soava antes.
+          {{ review.description }}
         </p>
       </div>
 
     </div>
-
-    <!-- 2 parte -->
-
-    <div class="review-card p-4 bg-zinc-800 rounded-lg">
-
-      <!-- Ícone do usuário -->
-      <div class="flex items-center mb-8">
-        <!-- <ion-icon name="person-circle-outline" size="large" color="primary" class="mr-4"></ion-icon> -->
-        <img src="../../assets/img/profile2.png" alt="" class=" user-icon ">
-        <p class="ml-3">Brendinha Taylor's Version</p>
-      </div>
-
-      <!-- Conteúdo da avaliação -->
-      <div class="review-content">
-
-        <!-- Header com capa e detalhes do álbum -->
-        <div class="flex items-center mb-2">
-          <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
-            <!-- Placeholder da capa do álbum -->
-            capa
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold">Folklore</h3>
-            <p class="text-sm text-gray-400">Taylor Swift</p>
-          </div>
-        </div>
-
-        <!-- Estrelas de Avaliação -->
-        <div class="stars mb-2">
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-        </div>
-
-        <!-- Descrição da Avaliação -->
-        <p class="text-sm">
-          2020 foi um ano agitado para a música, álbum após álbum, de
-          artista após artista. A última coisa que as pessoas esperavam era
-          um disco folk totalmente desenvolvido de Taylor Swift. Uma
-          experiência íncrivel que mistura experiências autênticas de
-          amor jovem e desgosto, mas este disco se destacou para muitos,
-          pois misturou pop com folk sem esforço, abrindo o gênero para as
-          massas de uma forma nunca antes vista.
-        </p>
-      </div>
-
-    </div>
-    <!-- 3 parte -->
-    <div class="review-card p-4 bg-zinc-800 rounded-lg">
-
-      <!-- Ícone do usuário -->
-      <div class="flex items-center mb-8">
-        <!-- <ion-icon name="person-circle-outline" size="large" color="primary" class="mr-4"></ion-icon> -->
-        <img src="../../assets/img/profile3.png" alt="" class=" user-icon ">
-        <p class="ml-3">Kaylaine Taylor's Version</p>
-      </div>
-
-      <!-- Conteúdo da avaliação -->
-      <div class="review-content">
-
-        <!-- Header com capa e detalhes do álbum -->
-        <div class="flex items-center mb-2">
-          <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
-            <!-- Placeholder da capa do álbum -->
-            capa
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold">Reputation</h3>
-            <p class="text-sm text-gray-400">Taylor Swift</p>
-          </div>
-        </div>
-
-        <!-- Estrelas de Avaliação -->
-        <div class="stars mb-2">
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-          <ion-icon name="star" class="text-yellow-400"></ion-icon>
-        </div>
-
-        <!-- Descrição da Avaliação -->
-        <p class="text-sm">
-          Quer você goste de Taylor Swift ou não, a influência e todo o
-          barulho que seu retorno é inegável, sabíamos que algo grande
-          estava por vir. Temos a ideia de que o álbum é puro ódio, mas se
-          olharmos de perto, notamos que ela fala sobre seu relacionamento
-          e o quanto sua companhia significou durante tudo que aconteceu,
-          quase poderíamos ver como uma carta de amor disfarçada.
-        </p>
-      </div>
-
-    </div>
-
-
-    <!-- Mais cartões podem ser repetidos aqui -->
 
   </div>
-
 </ion-content>
