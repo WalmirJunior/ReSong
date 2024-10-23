@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import SwiperCore, { Pagination, Navigation } from 'swiper';
+import { SpotifyService } from '../services/spotify.service'; // Importa o serviço
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -17,20 +18,27 @@ export class NewReleasesPage implements OnInit {
   pageTopAlbums: number = 1;   // Controle de paginação para Top Albums
   selectedGenre: string = 'pop'; // Gênero selecionado pelo usuário
 
-  apiKey: string = '30a102a7276dfdd1e9ff99441bdb05b5';
-
   slideOpts = {
     initialSlide: 0,
     speed: 400,
     slidesPerView: 3, // Mostra 3 cantores por vez
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private spotifyService: SpotifyService) {}
 
   ngOnInit() {
     this.getNewReleases();
     this.getTopAlbums();
-    this.getTopArtists();
+
+    this.spotifyService.fetchSpotifyToken().subscribe(
+      (tokenData: any) => {
+        this.spotifyService.setSpotifyToken(tokenData.access_token); // Define o token
+        this.loadTopArtists();
+      },
+      (error:any) => {
+        console.error('Erro ao obter token do Spotify:', error);
+      }
+    );
   }
 
   // Função chamada quando o usuário muda o gênero
@@ -47,7 +55,7 @@ export class NewReleasesPage implements OnInit {
     const page = this.pageNewReleases;
     this.http
       .get(
-        `https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${this.selectedGenre}&api_key=${this.apiKey}&limit=${limit}&page=${page}&format=json`
+        `https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${this.selectedGenre}&api_key=${this.spotifyService.getApiKey()}&limit=${limit}&page=${page}&format=json`
       )
       .subscribe(
         (response: any) => {
@@ -63,10 +71,9 @@ export class NewReleasesPage implements OnInit {
   getTopAlbums() {
     const limit = 5;
     const page = this.pageTopAlbums;
-
     this.http
       .get(
-        `https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${this.selectedGenre}&api_key=${this.apiKey}&limit=${limit}&page=${page}&format=json`
+        `https://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${this.selectedGenre}&api_key=${this.spotifyService.getApiKey()}&limit=${limit}&page=${page}&format=json`
       )
       .subscribe(
         (response: any) => {
@@ -97,38 +104,33 @@ export class NewReleasesPage implements OnInit {
     this.getNewReleases(); // Chama o método que faz a requisição à API
   }
 
-  getTopArtists() {
-    this.http
-  .get(
-    `http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=${this.apiKey}&format=json`
-  )
-  .subscribe(
-    (response: any) => {
-      console.log('API Response:', response); // Para inspecionar a estrutura completa
-      this.topArtists = response.artists.artist.map((artist: any) => {
-        const image = artist.image.find((img: any) => img.size === 'medium');
-        console.log('Artist:', artist.name, 'Image:', image ? image['#text'] : 'No image found');
-        return {
-          name: artist.name,
-          image: image ? image['#text'] : 'assets/default-artist.png', // Fallback para imagem padrão
-        };
-      });
-    },
-    (error) => {
-      console.error('Erro ao buscar top artistas:', error);
-    }
-  );
-
+  // Carrega os top artistas e busca suas imagens
+  loadTopArtists() {
+    this.spotifyService.loadTopArtists().subscribe(
+      (artists: any[]) => {
+        const filteredArtists = artists.filter(artist => artist.name.toLowerCase() !== 'kanye west'); // Filtra Kanye West
+        this.spotifyService.loadArtistsWithImages(filteredArtists).subscribe(
+          (artistsWithImages: any[]) => {
+            this.topArtists = artistsWithImages;
+          },
+          (error:any) => {
+            console.error('Erro ao carregar imagens dos artistas:', error);
+          }
+        );
+      },
+      (error:any) => {
+        console.error('Erro ao buscar top artistas no Last.fm:', error);
+      }
+    );
   }
+
+  // Função chamada quando a imagem é carregada com sucesso
   onImageLoad(imageUrl: string) {
     console.log('Image loaded:', imageUrl);
   }
 
+  // Função chamada quando há erro ao carregar a imagem
   onImageError(imageUrl: string) {
     console.error('Image failed to load:', imageUrl);
   }
-
-  }
-
-
-
+}
