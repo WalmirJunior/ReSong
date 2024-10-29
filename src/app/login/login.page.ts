@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,23 +9,26 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
-  email: string = '';
-  password: string = '';
+  email = '';
+  password = '';
 
-  constructor(private router: Router, private alertController: AlertController) {}
+  constructor(private authService: AuthService) {}
 
   async login() {
-    // Validação simples para fins de teste
-    if (this.email === 'admin' && this.password === 'admin') {
-      // Redirecionar para a página de reviews após login
-      this.router.navigate(['/sobre']);
-    } else {
-      const alert = await this.alertController.create({
-        header: 'Login Falhou',
-        message: 'Email ou senha incorretos.',
-        buttons: ['OK'],
-      });
-      await alert.present();
+    try {
+      const userCredential = await this.authService.login(this.email, this.password);
+      console.log('Usuário logado:', userCredential.user);
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+    }
+  }
+
+  async register() {
+    try {
+      const userCredential = await this.authService.register(this.email, this.password);
+      console.log('Usuário registrado:', userCredential.user);
+    } catch (error) {
+      console.error('Erro ao registrar:', error);
     }
   }
 }
