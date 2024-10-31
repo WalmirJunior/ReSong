@@ -12,7 +12,10 @@ export const environment = {
     messagingSenderId: "745808408582",
     appId: "1:745808408582:web:f61ca9c7d23336300b5387",
     measurementId: "G-7QH85XY8X2"
-  }
+  },
+  lastFmApiKey: '30a102a7276dfdd1e9ff99441bdb05b5',
+  spotifyClientId: 'abe5c3536c0546cfbc756dfffb619ebc',
+  spotifyClientSecret: 'e5cd9b4eaadf4c30aa972faaca4ae2c6'
 };
 
 /*

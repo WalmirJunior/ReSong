@@ -13,11 +13,7 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
 
-
-import { environment } from '../environments/environment';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,18 +24,6 @@ import { MenuComponent } from './components/menu/menu.component';
   declarations: [AppComponent, MenuComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
-<<<<<<< HEAD
-    IonicModule.forRoot(),
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    SwiperModule,
-    FormsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()),
-  ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-=======
       BrowserModule,
       IonicModule.forRoot(),
       AppRoutingModule,
@@ -53,7 +37,6 @@ import { MenuComponent } from './components/menu/menu.component';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth())
   ],
->>>>>>> dd6057bf33ebb42c9b74cdac410c3a4b209cc3b7
   bootstrap: [AppComponent],
 })
 export class AppModule {}
