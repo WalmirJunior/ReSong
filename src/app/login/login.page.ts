@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth'; // Importação do Firebase Authentication
 
 @Component({
   selector: 'app-login',
@@ -11,14 +12,20 @@ export class LoginPage {
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router, private alertController: AlertController) {}
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private auth: Auth // Injetando o serviço de autenticação do Firebase
+  ) {}
 
   async login() {
-    // Validação simples para fins de teste
-    if (this.email === 'admin' && this.password === 'admin') {
-      // Redirecionar para a página de reviews após login
+    try {
+      // Tenta fazer o login com o Firebase
+      await signInWithEmailAndPassword(this.auth, this.email, this.password);
+      // Se bem-sucedido, navega para a página de reviews
       this.router.navigate(['/sobre']);
-    } else {
+    } catch (error) {
+      // Mostra alerta se o login falhar
       const alert = await this.alertController.create({
         header: 'Login Falhou',
         message: 'Email ou senha incorretos.',
