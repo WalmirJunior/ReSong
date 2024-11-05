@@ -20,8 +20,11 @@
         <ion-input class="text-gwhite" [(ngModel)]="password" type="password"></ion-input>
       </ion-item>
       <!-- Login Button -->
-      <button (click)="login()">Login</button>
-      <!-- <button (click)="register()">Registrar</button> -->
+      <div class="buttons">
+        <button (click)="login()">Login</button>
+        <!-- <button (click)="register()">Registrar</button> -->
+         <button [routerLink]="['../register']" >Criar nova conta</button>
+      </div>
   </div>
 
   </div>

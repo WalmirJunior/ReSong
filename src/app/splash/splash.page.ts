@@ -11,7 +11,7 @@ export class SplashPage {
   constructor(private navCtrl: NavController) { }
 
   navigateToLogin() {
-    console.log('botao ta funfando')
+
     this.navCtrl.navigateForward('/login');
   }
 }

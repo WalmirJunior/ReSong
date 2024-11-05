@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth'; // Importação do Firebase Authentication
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from '@angular/fire/auth'; // Importação do Firebase Authentication
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,7 @@ export class LoginPage {
       // Tenta fazer o login com o Firebase
       await signInWithEmailAndPassword(this.auth, this.email, this.password);
       // Se bem-sucedido, navega para a página de reviews
-      this.router.navigate(['/sobre']);
+      this.router.navigate(['/tabs']);
     } catch (error) {
       // Mostra alerta se o login falhar
       const alert = await this.alertController.create({
@@ -34,5 +34,6 @@ export class LoginPage {
       await alert.present();
     }
   }
- 
+  
+
 }

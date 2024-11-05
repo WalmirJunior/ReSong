@@ -12,8 +12,13 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  register(email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password);
+  async registerUser(email: string, password: string): Promise<any> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      return userCredential.user; // Retorna o usuário criado
+    } catch (error) {
+      throw error; // Para tratamento de erros na chamada da função
+    }
   }
 
   logout() {
