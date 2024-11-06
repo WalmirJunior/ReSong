@@ -1,49 +1,36 @@
 <ion-header>
-  <ion-toolbar class="text-center">
-    <ion-title color="primary">RESONG</ion-title>
-    <ion-buttons slot="end">
-      <ion-menu-button color="primary"></ion-menu-button>
-    </ion-buttons>
+  <ion-toolbar>
+    <ion-title>Reviews de Música</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding bg-black text-white">
-  <div class="review-container space-y-4">
+<ion-content>
+  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="searchTracks()"></ion-searchbar>
 
-    <!-- Repetir esta estrutura para cada avaliação -->
-    <div *ngFor="let review of albumReviews" class="review-card p-4 bg-zinc-800 rounded-lg">
+  <ion-list *ngIf="searchResults.length">
+    <ion-item *ngFor="let track of searchResults" (click)="selectTrack(track)">
+      {{ track.name }} - {{ track.artist }}
+    </ion-item>
+  </ion-list>
 
-      <!-- Ícone do usuário -->
-      <div class="flex items-center mb-8">
-        <img [src]="review.userImage" alt="Ícone do usuário" class="user-icon w-12 h-12 rounded-full">
-        <p class="ml-3">{{ review.user }}</p>
-      </div>
+  <ion-card *ngIf="selectedTrack">
+    <ion-card-header>
+      <ion-card-title>{{ selectedTrack.name }} - {{ selectedTrack.artist }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-textarea placeholder="Escreva sua review..." [(ngModel)]="reviewText"></ion-textarea>
+      <ion-range min="1" max="5" step="1" snaps="true" [(ngModel)]="rating"></ion-range>
+      <ion-button expand="full" (click)="submitReview()">Enviar Review</ion-button>
+    </ion-card-content>
+  </ion-card>
 
-      <!-- Conteúdo da avaliação -->
-      <div class="review-content">
-        <div class="flex items-center mb-2">
-          <!-- Imagem do álbum -->
-          <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
-            <img [src]="review.albumImage || 'assets/img/placeholder.png'" alt="Capa do Álbum" class="w-full h-full object-cover">
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold">{{ review.album }}</h3>
-            <p class="text-sm text-gray-400">{{ review.artist }}</p>
-          </div>
-        </div>
-
-        <!-- Estrelas de Avaliação -->
-        <div class="stars mb-2">
-          <ion-icon *ngFor="let star of [].constructor(review.stars)" name="star" class="text-yellow-400"></ion-icon>
-        </div>
-
-        <!-- Descrição da Avaliação -->
-        <p class="text-sm">
-          {{ review.description }}
-        </p>
-      </div>
-
-    </div>
-
-  </div>
+  <ion-list>
+    <ion-item *ngFor="let review of myReviews">
+      <ion-label>
+        <h2>{{ review.trackName }} - {{ review.artist }}</h2>
+        <p>{{ review.reviewText }}</p>
+        <ion-note slot="end">Nota: {{ review.rating }}</ion-note>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -6,57 +8,64 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './tab1.page.html',
   styleUrls: ['./tab1.page.scss'],
 })
-export class Tab1Page implements OnInit {
+export class Tab1Page {
+  searchQuery: string = '';
+  searchResults: any[] = [];
+  selectedTrack: any;
+  reviewText: string = '';
+  rating: number = 3;
+  myReviews: any[] = [];
 
-  apiKey = '30a102a7276dfdd1e9ff99441bdb05b5'; // Insira sua chave da API do Last.fm
-  albumReviews = [
-    {
-      user: 'Junin Taylor\'s Version',
-      album: 'midnights',
-      artist: 'Taylor Swift',
-      description: 'Este é o melhor álbum que já ouvi e adorei cada segundo dele. Taylor se reinventou com este, soando muito diferente de como soava antes.',
-      stars: 5,
-      albumImage: '',  // Placeholder para a URL da imagem do álbum
-      userImage: 'assets/img/profile1.jpg'  // Imagem do usuário
-    },
-    {
-      user: 'Brendinha Taylor\'s Version',
-      album: 'Folklore',
-      artist: 'Taylor Swift',
-      description: 'Uma experiência incrível que mistura experiências autênticas de amor jovem e desgosto, misturando pop com folk.',
-      stars: 5,
-      albumImage: '',
-      userImage: 'assets/img/profile2.png'  // Imagem do usuário
-    },
-    {
-      user: 'Kaylaine Taylor\'s Version',
-      album: '1989 taylor\'s version',
-      artist: 'Taylor Swift',
-      description: 'O álbum não é puro ódio, mas uma carta de amor disfarçada.',
-      stars: 5,
-      albumImage: '',
-      userImage: 'assets/img/profile3.png'  // Imagem do usuário
-    }
-  ];
+  constructor(
+    private firestore: Firestore,
+    private auth: Auth,
+    private http: HttpClient
+  ) {}
 
-  constructor(private http: HttpClient) {}
+  async searchTracks() {
+    const apiKey = '30a102a7276dfdd1e9ff99441bdb05b5'; // Substitua pela sua chave da API
+    const url = `http://ws.audioscrobbler.com/2.0/?method=track.search&track=${this.searchQuery}&api_key=${apiKey}&format=json`;
 
-  ngOnInit() {
-    this.loadAlbumImages();
+    this.http.get(url).subscribe((data: any) => {
+      this.searchResults = data.results.trackmatches.track;
+    });
   }
 
-  loadAlbumImages() {
-    this.albumReviews.forEach((review, index) => {
-      const url = `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=${this.apiKey}&artist=${encodeURIComponent(review.artist)}&album=${encodeURIComponent(review.album)}&format=json`;
+  selectTrack(track: any) {
+    this.selectedTrack = track;
+  }
 
-      this.http.get(url).subscribe((data: any) => {
-        if (data && data.album && data.album.image) {
-          // Pega a imagem de tamanho médio (você pode escolher outro tamanho, se preferir)
-          this.albumReviews[index].albumImage = data.album.image[2]['#text']; // Tamanho médio da imagem
-        }
-      }, error => {
-        console.error('Erro ao carregar a imagem do álbum', error);
-      });
-    });
+  async submitReview() {
+    const userId = this.auth.currentUser?.uid;
+    if (!userId || !this.selectedTrack) return;
+
+    const reviewData = {
+      userId,
+      trackId: this.selectedTrack.mbid,
+      trackName: this.selectedTrack.name,
+      artist: this.selectedTrack.artist,
+      reviewText: this.reviewText,
+      rating: this.rating,
+      timestamp: new Date(),
+    };
+
+    await addDoc(collection(this.firestore, 'reviews'), reviewData);
+    this.reviewText = '';
+    this.rating = 3;
+    this.selectedTrack = null;
+    this.loadMyReviews();
+  }
+
+  async loadMyReviews() {
+    const userId = this.auth.currentUser?.uid;
+    if (!userId) return;
+
+    const q = query(collection(this.firestore, 'reviews'), where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+    this.myReviews = querySnapshot.docs.map(doc => doc.data());
+  }
+
+  ngOnInit() {
+    this.loadMyReviews();
   }
 }
