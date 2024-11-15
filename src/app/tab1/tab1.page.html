@@ -4,33 +4,74 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="searchTracks()"></ion-searchbar>
+<ion-content class="ion-padding bg-black text-white">
 
-  <ion-list *ngIf="searchResults.length">
+  <!-- Barra de Busca -->
+  <div class="flex items-center space-x-2">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      (ionInput)="searchTracks()"
+      placeholder="Buscar música"
+      class="flex-grow"
+    ></ion-searchbar>
+    <ion-button *ngIf="isSearching" fill="clear" size="small" (click)="dismissSearch()">
+      Fechar
+    </ion-button>
+  </div>
+
+  <!-- Resultados de Busca -->
+  <ion-list *ngIf="isSearching" class="mt-4">
     <ion-item *ngFor="let track of searchResults" (click)="selectTrack(track)">
-      {{ track.name }} - {{ track.artist }}
+      <div class="flex flex-col">
+        <span class="font-semibold">{{ track.name }}</span>
+        <span class="text-sm text-gray-400">{{ track.artist }}</span>
+      </div>
     </ion-item>
   </ion-list>
 
-  <ion-card *ngIf="selectedTrack">
+  <!-- Caixa para Nova Review -->
+  <ion-card *ngIf="selectedTrack" class="bg-zinc-800 mt-6">
     <ion-card-header>
-      <ion-card-title>{{ selectedTrack.name }} - {{ selectedTrack.artist }}</ion-card-title>
+      <ion-card-title class="text-lg text-white">
+        {{ selectedTrack.name }} - {{ selectedTrack.artist }}
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-textarea placeholder="Escreva sua review..." [(ngModel)]="reviewText"></ion-textarea>
-      <ion-range min="1" max="5" step="1" snaps="true" [(ngModel)]="rating"></ion-range>
-      <ion-button expand="full" (click)="submitReview()">Enviar Review</ion-button>
+      <ion-textarea
+        placeholder="Escreva sua review..."
+        [(ngModel)]="reviewText"
+        class="bg-zinc-900 text-white rounded-lg p-3"
+      ></ion-textarea>
+      <div class="mt-4">
+        <label class="block text-sm text-gray-400">Nota</label>
+        <ion-range min="1" max="5" step="1" snaps="true" [(ngModel)]="rating"></ion-range>
+      </div>
+      <ion-button expand="full" class="mt-4" (click)="submitReview()">Enviar Review</ion-button>
     </ion-card-content>
   </ion-card>
 
-  <ion-list>
-    <ion-item *ngFor="let review of myReviews">
-      <ion-label>
-        <h2>{{ review.trackName }} - {{ review.artist }}</h2>
-        <p>{{ review.reviewText }}</p>
-        <ion-note slot="end">Nota: {{ review.rating }}</ion-note>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <!-- Lista de Reviews do Usuário -->
+  <div *ngFor="let review of myReviews" class="bg-zinc-900 rounded-lg p-4 mt-4 shadow-md">
+    <div class="flex items-center space-x-4">
+      <!-- Imagem do Usuário -->
+      <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
+        <img
+          [src]="review.userPhoto || 'https://via.placeholder.com/150'"
+          alt="Foto do usuário"
+          class="w-full h-full object-cover rounded-full"
+        />
+      </div>
+      <!-- Informações do Review -->
+      <div>
+        <h3 class="font-semibold text-white">{{ review.trackName }} - {{ review.artist }}</h3>
+        <p class="text-sm text-gray-400">Postado em {{ review.timestamp | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+    </div>
+    <!-- Texto da Review -->
+    <p class="mt-3 text-gray-300">{{ review.reviewText }}</p>
+    <!-- Nota -->
+    <div class="flex justify-end">
+      <ion-note class="text-yellow-400 font-semibold">Nota: {{ review.rating }}</ion-note>
+    </div>
+  </div>
 </ion-content>

@@ -29,6 +29,7 @@ export class NewReleasesPage implements OnInit {
   ngOnInit() {
     this.getNewReleases();
     this.getTopAlbums();
+    this.loadTopArtists();
 
     this.spotifyService.fetchSpotifyToken().subscribe(
       (tokenData: any) => {

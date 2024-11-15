@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Firestore, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
+import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tab1',
@@ -15,6 +16,7 @@ export class Tab1Page {
   reviewText: string = '';
   rating: number = 3;
   myReviews: any[] = [];
+  isSearching: boolean = false; // Nova variável para controlar o estado da pesquisa
 
   constructor(
     private firestore: Firestore,
@@ -22,7 +24,17 @@ export class Tab1Page {
     private http: HttpClient
   ) {}
 
+  ngOnInit() {
+    this.loadMyReviews();
+  }
+
   async searchTracks() {
+    if (this.searchQuery.trim() === '') {
+      this.dismissSearch(); // Fecha automaticamente se a busca estiver vazia
+      return;
+    }
+
+    this.isSearching = true; // Ativa o estado de busca
     const apiKey = '30a102a7276dfdd1e9ff99441bdb05b5'; // Substitua pela sua chave da API
     const url = `http://ws.audioscrobbler.com/2.0/?method=track.search&track=${this.searchQuery}&api_key=${apiKey}&format=json`;
 
@@ -31,8 +43,15 @@ export class Tab1Page {
     });
   }
 
+  dismissSearch() {
+    this.isSearching = false; // Sai do modo de pesquisa
+    this.searchQuery = ''; // Limpa o campo de busca
+    this.searchResults = []; // Reseta os resultados da pesquisa
+  }
+
   selectTrack(track: any) {
     this.selectedTrack = track;
+    this.dismissSearch(); // Fecha a pesquisa ao selecionar uma música
   }
 
   async submitReview() {
@@ -62,10 +81,13 @@ export class Tab1Page {
 
     const q = query(collection(this.firestore, 'reviews'), where('userId', '==', userId));
     const querySnapshot = await getDocs(q);
-    this.myReviews = querySnapshot.docs.map(doc => doc.data());
-  }
-
-  ngOnInit() {
-    this.loadMyReviews();
+    this.myReviews = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        ...data,
+        timestamp: (data['timestamp'] as Timestamp).toDate(), // Corrige o acesso ao timestamp
+        userPhoto: this.auth.currentUser?.photoURL || '', // Foto do usuário (se disponível)
+      };
+    });
   }
 }
