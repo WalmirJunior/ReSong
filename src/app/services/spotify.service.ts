@@ -93,4 +93,21 @@ export class SpotifyService {
       map((artists: any[]) => artists.filter((artist: any) => artist !== null)) // Remove valores nulos, incluindo Kanye West
     );
   }
+
+  getSpotifyTrackImage(trackName: string, artistName: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.spotifyToken}`,
+    });
+  
+    return this.http.get(`https://api.spotify.com/v1/search?q=track:${trackName} artist:${artistName}&type=track`, { headers }).pipe(
+      map((response: any) => {
+        const track = response.tracks.items[0];
+        return track ? track.album.images[0]?.url : null;
+      }),
+      catchError((error) => {
+        console.error('Erro ao buscar imagem da música no Spotify:', error);
+        return of(null);
+      })
+    );
+  }
 }

@@ -9,11 +9,12 @@
   <!-- Barra de Busca -->
   <div class="flex items-center space-x-2">
     <ion-searchbar
+      #searchbar
       [(ngModel)]="searchQuery"
       (ionInput)="searchTracks()"
       placeholder="Buscar música"
-      class="flex-grow"
-    ></ion-searchbar>
+      class="flex-grow">
+    </ion-searchbar>
     <ion-button *ngIf="isSearching" fill="clear" size="small" (click)="dismissSearch()">
       Fechar
     </ion-button>
@@ -53,18 +54,18 @@
   <!-- Lista de Reviews do Usuário -->
   <div *ngFor="let review of myReviews" class="bg-zinc-900 rounded-lg p-4 mt-4 shadow-md">
     <div class="flex items-center space-x-4">
-      <!-- Imagem do Usuário -->
+      <!-- Imagem da música -->
       <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
         <img
-          [src]="review.userPhoto || 'https://via.placeholder.com/150'"
-          alt="Foto do usuário"
+          [src]="review.trackImage || 'https://via.placeholder.com/150'"
+          alt="Imagem da música"
           class="w-full h-full object-cover rounded-full"
         />
       </div>
       <!-- Informações do Review -->
       <div>
         <h3 class="font-semibold text-white">{{ review.trackName }} - {{ review.artist }}</h3>
-        <p class="text-sm text-gray-400">Postado em {{ review.timestamp | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p class="text-sm text-gray-400">Review postado em {{ review.timestamp | date:'dd/MM/yyyy HH:mm' }}</p>
       </div>
     </div>
     <!-- Texto da Review -->
@@ -74,4 +75,5 @@
       <ion-note class="text-yellow-400 font-semibold">Nota: {{ review.rating }}</ion-note>
     </div>
   </div>
+  
 </ion-content>
