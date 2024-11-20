@@ -31,14 +31,14 @@ export class RegisterPage {
         await modal.dismiss();
         this.router.navigate(['/login']);
       }, 2000);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Erro ao registrar usuário:', error);
   
-      // Exibe uma mensagem de erro ao usuário, garantindo que `message` existe
-      const errorMessage = error?.message || 'Ocorreu um erro desconhecido.';
-      alert(errorMessage);
+      // Exibe o erro de forma mais amigável
+      alert((error as Error).message);
     }
   }
+  
   
 
   async showSuccessModal() {
