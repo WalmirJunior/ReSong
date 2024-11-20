@@ -14,7 +14,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
-
+import { ReviewService } from './services/review.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +37,8 @@ import { MenuComponent } from './components/menu/menu.component';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    ReviewService,
+
   ],
   bootstrap: [AppComponent],
 })

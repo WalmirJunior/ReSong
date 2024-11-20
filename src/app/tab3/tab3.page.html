@@ -1,20 +1,51 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-menu-button color="primary"></ion-menu-button>
-    </ion-buttons>
+    <ion-title>Reviews de Outros Usuários</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding bg-black text-white">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <!-- Indicador de Carregamento -->
+  <div *ngIf="loading; else loaded" class="flex items-center justify-center h-full">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p class="ml-4 text-gray-400">Carregando reviews de outros usuários...</p>
+  </div>
+
+  <ng-template #loaded>
+    <!-- Lista de Reviews -->
+    <div *ngIf="reviews.length > 0; else noReviews">
+      <div *ngFor="let review of reviews" class="bg-zinc-900 rounded-lg p-4 mt-4 shadow-md">
+        <div class="flex items-center space-x-4">
+          <!-- Imagem Placeholder (substitua se necessário) -->
+          <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
+            <img
+              [src]="review.trackImage || 'https://via.placeholder.com/150'"
+              alt="Imagem da música"
+              class="w-full h-full object-cover rounded-full"
+            />
+          </div>
+          <!-- Informações do Review -->
+          <div>
+            <h3 class="font-semibold text-white">{{ review.trackName }} - {{ review.artist }}</h3>
+            <p class="text-sm text-gray-400">Por: {{ review.userId }}</p>
+          </div>
+        </div>
+        <!-- Texto do Review -->
+        <p class="mt-3 text-gray-300">{{ review.reviewText }}</p>
+        <!-- Nota -->
+        <div class="flex justify-end">
+          <ion-note class="text-yellow-400 font-semibold">Nota: {{ review.rating }}</ion-note>
+        </div>
+      </div>
+    </div>
+
+    <!-- Caso não haja Reviews -->
+    <ng-template #noReviews>
+      <div class="flex items-center justify-center h-full">
+        <p class="text-gray-400">Nenhuma review de outros usuários disponível no momento.</p>
+      </div>
+    </ng-template>
+  </ng-template>
+
 </ion-content>

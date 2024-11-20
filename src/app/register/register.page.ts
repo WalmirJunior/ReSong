@@ -12,6 +12,7 @@ import { SuccessModalComponent } from '../components/success-modal/success-modal
 export class RegisterPage {
   email: string = '';
   password: string = '';
+  username: string = ''; // Novo campo para o username
 
   constructor(
     private authService: AuthService,
@@ -21,24 +22,24 @@ export class RegisterPage {
 
   async register() {
     try {
-      const user = await this.authService.registerUser(this.email, this.password);
+      const user = await this.authService.registerUser(this.email, this.password, this.username);
       console.log('Usuário registrado:', user);
-
-      // Abre o modal de sucesso
+  
       const modal = await this.showSuccessModal();
-
-      // Aguarda 2 segundos antes do redirecionamento
+  
       setTimeout(async () => {
-        // Fecha o modal antes de redirecionar
         await modal.dismiss();
-        // Redireciona para a página de login
         this.router.navigate(['/login']);
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Erro ao registrar usuário:', error);
-      // Aqui você pode exibir uma mensagem de erro ao usuário
+  
+      // Exibe uma mensagem de erro ao usuário, garantindo que `message` existe
+      const errorMessage = error?.message || 'Ocorreu um erro desconhecido.';
+      alert(errorMessage);
     }
   }
+  
 
   async showSuccessModal() {
     const modal = await this.modalController.create({

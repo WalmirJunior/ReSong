@@ -4,6 +4,18 @@
 
     <form (ngSubmit)="register()" class="space-y-4">
       <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+        <input
+          type="text"
+          id="username"
+          [(ngModel)]="username"
+          name="username"
+          class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Escolha um username"
+          required />
+      </div>
+
+      <div>
         <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
         <input
           type="email"
@@ -33,10 +45,11 @@
         Registrar
       </button>
     </form>
+
     <button
-        [routerLink]="['../login']"
-        class="w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-        Já possui login?
-      </button>
+      [routerLink]="['../login']"
+      class="w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
+      Já possui login?
+    </button>
   </div>
 </div>
