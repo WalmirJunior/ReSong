@@ -16,6 +16,7 @@ export class Tab3Page implements OnInit {
   async ngOnInit() {
     const user = this.auth.currentUser;
     if (user) {
+      // Obtém reviews de outros usuários com os usernames
       this.reviews = await this.reviewService.getOtherUsersReviews(user.uid);
     }
     this.loading = false;

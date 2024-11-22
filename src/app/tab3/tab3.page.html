@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Reviews de Outros Usuários</ion-title>
+  <ion-toolbar class="text-center">
+    <ion-title color="primary">Reviews de outros usuarios</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -28,7 +31,7 @@
           <!-- Informações do Review -->
           <div>
             <h3 class="font-semibold text-white">{{ review.trackName }} - {{ review.artist }}</h3>
-            <p class="text-sm text-gray-400">Por: {{ review.userId }}</p>
+            <p class="text-sm text-gray-400">Por: {{ review.username || 'Usuário Desconhecido' }}</p>
           </div>
         </div>
         <!-- Texto do Review -->

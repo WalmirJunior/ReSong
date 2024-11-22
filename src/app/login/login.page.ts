@@ -34,6 +34,20 @@ export class LoginPage {
       await alert.present();
     }
   }
+  async logout() {
+    try {
+      await this.auth.signOut(); // Firebase encerra a sessão
+      this.router.navigate(['/login']); // Redireciona para a página de login
+    } catch (error) {
+      const alert = await this.alertController.create({
+        header: 'Erro',
+        message: 'Não foi possível sair. Tente novamente.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
+  }
+  
   
 
 }

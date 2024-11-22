@@ -1,11 +1,14 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Reviews de Música</ion-title>
+  <ion-toolbar class="text-center">
+    <ion-title color="primary">Seus Reviews</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button color="primary"></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding bg-black text-white">
-
+  
   <!-- Barra de Busca -->
   <div class="flex items-center space-x-2">
     <ion-searchbar
@@ -53,7 +56,7 @@
 
   <!-- Lista de Reviews do Usuário -->
   <div *ngFor="let review of myReviews" class="bg-zinc-900 rounded-lg p-4 mt-4 shadow-md">
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center justify-between">
       <!-- Imagem da música -->
       <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
         <img
@@ -63,17 +66,23 @@
         />
       </div>
       <!-- Informações do Review -->
-      <div>
-        <h3 class="font-semibold text-white">{{ review.trackName }} - {{ review.artist }}</h3>
-        <p class="text-sm text-gray-400">Review postado em {{ review.timestamp | date:'dd/MM/yyyy HH:mm' }}</p>
+      <div class="flex-1 ml-4">
+        <div>
+          <h3 class="font-semibold text-white">{{ review.trackName }} - {{ review.artist }}</h3>
+        </div>
+        <p class="text-sm text-purple-400">Nota: {{ review.rating }}</p>
+        <p class="text-sm text-white">{{ review.reviewText }}</p>
       </div>
-    </div>
-    <!-- Texto da Review -->
-    <p class="mt-3 text-gray-300">{{ review.reviewText }}</p>
-    <!-- Nota -->
-    <div class="flex justify-end">
-      <ion-note class="text-purple-400 font-semibold">Nota: {{ review.rating }}</ion-note>
+      <!-- Botão de Excluir com ícone de lixeira -->
+      <ion-button
+        fill="clear"
+        size="small"
+        color="danger"
+        (click)="deleteReview(review.id)"
+        class="flex justify-end"
+      >
+        <ion-icon name="trash-outline" color="primary"></ion-icon>
+      </ion-button>
     </div>
   </div>
-  
 </ion-content>

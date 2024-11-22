@@ -9,19 +9,6 @@
 
 <ion-content class="ion-padding bg-black text-white">
 
-  <!-- Gênero Musical Selector -->
-  <!-- <div class="mb-4">
-    <label for="genreSelect" class="block text-lg font-semibold mb-2">Escolha um gênero musical:</label>
-    <select id="genreSelect" [(ngModel)]="selectedGenre" (change)="onGenreChange()" class="p-2 bg-zinc-800 text-white rounded-lg w-full">
-      <option value="pop">Pop</option>
-      <option value="rock">Rock</option>
-      <option value="hip-hop">Hip-Hop</option>
-      <option value="jazz">Jazz</option>
-      <option value="classical">Classical</option>
-      <!-- Adicione mais gêneros conforme necessário -->
-    <!-- </select>
-  </div> -->
-   <!-- Carrossel de Top Cantores -->
    <swiper
   [slidesPerView]="3"
   [spaceBetween]="10"
@@ -72,47 +59,4 @@
     </div>
   </div>
 
-  <!-- Top Albums Section
-  <h2 class="text-lg font-semibold mt-8 mb-4">Top Albums</h2>
-  <div *ngFor="let album of topAlbums" class="album-card p-4 mb-5 bg-zinc-800 rounded-lg">
-    <div class="flex items-center mb-2">
-      <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
-        <img [src]="album.image[2]['#text']" alt="Album Cover" class="w-full h-full">
-      </div>
-      <div>
-        <h3 class="text-lg font-semibold">{{ album.name }}</h3>
-        <p class="text-sm text-gray-400">{{ album.artist.name }}</p>
-      </div>
-    </div>
-  </div> -->
 
-  <!-- <ion-footer>
-    <ion-toolbar>
-      <ion-tabs>
-        <ion-tab-bar slot="bottom">
-          <ion-tab-button tab="tab1" routerLink="/tabs/tab1">
-            <ion-icon name="home" color="primary"></ion-icon>
-            <ion-label>Tab 1</ion-label>
-          </ion-tab-button>
-          <ion-tab-button tab="tab2" routerLink="/tabs/tab2">
-            <ion-icon name="book" color="primary"></ion-icon>
-            <ion-label>Tab 2</ion-label>
-          </ion-tab-button>
-          <ion-tab-button tab="tab3" routerLink="/tabs/tab3">
-            <ion-icon name="create" color="primary"></ion-icon>
-            <ion-label>Tab 3</ion-label>
-          </ion-tab-button>
-        </ion-tab-bar>
-      </ion-tabs>
-    </ion-toolbar>
-  </ion-footer> -->
-
-  <!-- Infinite Scroll Component -->
-  <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreAlbums($event)">
-    <ion-infinite-scroll-content
-      loading-spinner="bubbles"
-      loading-text="Loading more albums...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
-</ion-content> -->
