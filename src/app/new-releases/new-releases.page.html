@@ -9,35 +9,33 @@
 
 <ion-content class="ion-padding bg-black text-white">
 
-   <swiper
-  [slidesPerView]="3"
-  [spaceBetween]="10"
-  [navigation]="false"
-  [pagination]="false"
-  class="flex justify-center items-center space-x-4 py-4"
->
-  <ng-template swiperSlide *ngFor="let artist of topArtists">
-    <div class="flex flex-col items-center justify-center space-y-2">
-      <div class="w-20 h-20 rounded-full border-4 border-purple-500 p-1">
-        <img
-          [src]="artist.image"
-          alt="Top Artist"
-          class="w-full h-full object-cover rounded-full"
-        />
-      </div>
-      <p class="text-white text-center text-sm font-semibold">
-        {{ artist.name }}
-      </p>
-    </div>
-  </ng-template>
-</swiper>
+  <!-- Swiper com top artistas -->
+  <div>
+    <swiper
+      [slidesPerView]="3"
+      [spaceBetween]="10"
+      [navigation]="false"
+      [pagination]="false"
+      class="flex justify-center items-center space-x-4 py-4"
+    >
+      <ng-template swiperSlide *ngFor="let artist of topArtists">
+        <div class="flex flex-col items-center justify-center space-y-2">
+          <div class="w-20 h-20 rounded-full border-4 border-purple-500 p-1">
+            <img
+              [src]="artist.image"
+              alt="Top Artist"
+              class="w-full h-full object-cover rounded-full"
+            />
+          </div>
+          <p class="text-white text-center text-sm font-semibold">
+            {{ artist.name }}
+          </p>
+        </div>
+      </ng-template>
+    </swiper>
+  </div>
 
-
-
-
-  <!-- Restante do conteúdo -->
-
-  <!-- New Releases Section -->
+  <!-- Seção de novos lançamentos -->
   <div class="flex justify-between items-center">
     <h2 class="text-lg font-semibold mb-4">Top Albuns</h2>
     <button (click)="refreshNewReleases()" class="flex items-center p-2 bg-primary rounded-full">
@@ -45,18 +43,25 @@
     </button>
   </div>
 
-
-  <!-- New Releases Section -->
-  <div *ngFor="let album of newAlbums" class="album-card p-4 mb-5 bg-zinc-800 rounded-lg">
-    <div class="flex items-center mb-2">
-      <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
-        <img [src]="album.image[2]['#text']" alt="Album Cover" class="w-full h-full">
-      </div>
-      <div >
-        <h3 class="text-lg font-semibold">{{ album.name }}</h3>
-        <p class="text-sm text-gray-400">{{ album.artist.name }}</p>
+  <!-- Verificar se os álbuns estão carregados -->
+  <ng-container *ngIf="newAlbums.length; else loading">
+    <!-- Exibir os álbuns -->
+    <div *ngFor="let album of newAlbums" class="album-card p-4 mb-5 bg-zinc-800 rounded-lg">
+      <div class="flex items-center mb-2">
+        <div class="album-cover w-16 h-16 bg-gray-500 flex items-center justify-center text-black mr-4">
+          <img [src]="album.image[2]['#text']" alt="Album Cover" class="w-full h-full">
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold">{{ album.name }}</h3>
+          <p class="text-sm text-gray-400">{{ album.artist.name }}</p>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 
+  <!-- Template de carregamento -->
+  <ng-template #loading>
+    <ion-spinner name="crescent"></ion-spinner>
+  </ng-template>
 
+</ion-content>

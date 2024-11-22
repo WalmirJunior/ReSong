@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import SwiperCore, { Pagination, Navigation } from 'swiper';
 import { SpotifyService } from '../services/spotify.service'; // Importa o serviço
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
 
 SwiperCore.use([Pagination, Navigation]);
 
@@ -15,34 +17,47 @@ export class NewReleasesPage implements OnInit {
   topAlbums: any[] = [];
   topArtists: any[] = [];
   pageNewReleases: number = 1; // Controle de paginação para New Releases
-  pageTopAlbums: number = 1;   // Controle de paginação para Top Albums
+  pageTopAlbums: number = 1; // Controle de paginação para Top Albums
   selectedGenre: string = 'pop'; // Gênero selecionado pelo usuário
 
   slideOpts = {
     initialSlide: 0,
     speed: 400,
-    slidesPerView: 3, // Mostra 3 cantores por vez
+    slidesPerView: window.innerWidth < 768 ? 1 : 3,
   };
 
-  constructor(private http: HttpClient, private spotifyService: SpotifyService) {}
+  constructor(
+    private http: HttpClient,
+    private spotifyService: SpotifyService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initializePage();
+    }
+  }
+
+  // Inicialização principal da página
+  initializePage() {
     this.getNewReleases();
     this.getTopAlbums();
-    this.loadTopArtists();
+    this.fetchSpotifyTokenAndLoadArtists();
+  }
 
+  // Obter token do Spotify e carregar artistas
+  fetchSpotifyTokenAndLoadArtists() {
     this.spotifyService.fetchSpotifyToken().subscribe(
       (tokenData: any) => {
         this.spotifyService.setSpotifyToken(tokenData.access_token); // Define o token
         this.loadTopArtists();
       },
-      (error:any) => {
+      (error: any) => {
         console.error('Erro ao obter token do Spotify:', error);
       }
     );
   }
 
-  // Função chamada quando o usuário muda o gênero
   onGenreChange() {
     this.pageNewReleases = 1;
     this.pageTopAlbums = 1;
@@ -50,7 +65,6 @@ export class NewReleasesPage implements OnInit {
     this.getTopAlbums();
   }
 
-  // Pega os álbuns lançados recentemente com base no gênero selecionado
   getNewReleases() {
     const limit = 5;
     const page = this.pageNewReleases;
@@ -60,7 +74,7 @@ export class NewReleasesPage implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          this.newAlbums = response.albums.album;
+          this.newAlbums = response.albums?.album || [];
         },
         (error) => {
           console.error('Erro ao buscar New Releases:', error);
@@ -68,7 +82,6 @@ export class NewReleasesPage implements OnInit {
       );
   }
 
-  // Pega os álbuns mais populares com base no gênero selecionado
   getTopAlbums() {
     const limit = 5;
     const page = this.pageTopAlbums;
@@ -78,7 +91,7 @@ export class NewReleasesPage implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          this.topAlbums = response.albums.album;
+          this.topAlbums = response.albums?.album || [];
         },
         (error) => {
           console.error('Erro ao buscar Top Albums:', error);
@@ -86,51 +99,50 @@ export class NewReleasesPage implements OnInit {
       );
   }
 
-  // Função para carregar mais álbuns ao rolar a página
   loadMoreAlbums(event: any) {
-    this.pageNewReleases++;  // Incrementa a página de New Releases
-    this.pageTopAlbums++;    // Incrementa a página de Top Albums
+    this.pageNewReleases++;
+    this.pageTopAlbums++;
 
-    this.getNewReleases();   // Carrega mais New Releases
-    this.getTopAlbums();     // Carrega mais Top Albums
+    // Atualiza os arrays com mais dados
+    this.getNewReleases();
+    this.getTopAlbums();
 
     setTimeout(() => {
-      event.target.complete(); // Finaliza o loading
+      event.target.complete(); // Finaliza o carregamento
     }, 1000);
   }
 
-  // Função para atualizar manualmente os novos lançamentos
   refreshNewReleases() {
-    this.pageNewReleases++; // Incrementa a página para pegar novos resultados
-    this.getNewReleases(); // Chama o método que faz a requisição à API
+    this.pageNewReleases++;
+    this.getNewReleases();
   }
 
-  // Carrega os top artistas e busca suas imagens
   loadTopArtists() {
     this.spotifyService.loadTopArtists().subscribe(
       (artists: any[]) => {
-        const filteredArtists = artists.filter(artist => artist.name.toLowerCase() !== 'kanye west'); // Filtra Kanye West
+        const filteredArtists = artists.filter(
+          (artist) => artist.name.toLowerCase().trim() !== 'kanye west'
+        );
+
         this.spotifyService.loadArtistsWithImages(filteredArtists).subscribe(
           (artistsWithImages: any[]) => {
             this.topArtists = artistsWithImages;
           },
-          (error:any) => {
+          (error: any) => {
             console.error('Erro ao carregar imagens dos artistas:', error);
           }
         );
       },
-      (error:any) => {
+      (error: any) => {
         console.error('Erro ao buscar top artistas no Last.fm:', error);
       }
     );
   }
 
-  // Função chamada quando a imagem é carregada com sucesso
   onImageLoad(imageUrl: string) {
     console.log('Image loaded:', imageUrl);
   }
 
-  // Função chamada quando há erro ao carregar a imagem
   onImageError(imageUrl: string) {
     console.error('Image failed to load:', imageUrl);
   }

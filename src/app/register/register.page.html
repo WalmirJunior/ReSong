@@ -1,55 +1,59 @@
-<div class="flex items-center justify-center min-h-screen bg-gray-100">
-  <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Registrar-se</h2>
+<ion-header>
+  <ion-toolbar class="bg-blue-600">
+    <ion-title class="text-white text-center text-lg font-bold">Registrar-se</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <form (ngSubmit)="register()" class="space-y-4">
-      <div>
-        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-        <input
-          type="text"
-          id="username"
-          [(ngModel)]="username"
-          name="username"
-          class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Escolha um username"
-          required />
-      </div>
+<ion-content class="flex items-center justify-center min-h-screen bg-gray-900">
 
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
-        <input
-          type="email"
-          id="email"
-          [(ngModel)]="email"
-          name="email"
-          class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Digite seu e-mail"
-          required />
-      </div>
-
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-        <input
-          type="password"
-          id="password"
-          [(ngModel)]="password"
-          name="password"
-          class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Digite sua senha"
-          required />
-      </div>
-
+  <!-- Form Container -->
+  <div class="flex items-center justify-center min-h-screen bg-gray-900">
+    <div class="bg-purple-800 p-8 md:p-12 rounded-lg shadow-lg w-11/12 md:w-2/3 lg:w-1/3">
+      <h2 class="text-white text-center text-2xl font-semibold mb-6">Criar uma conta</h2>
+      <p class="text-gray-300 text-center text-sm mb-6">Preencha os campos abaixo para se registrar.</p>
+      <!-- Form -->
+      <form (ngSubmit)="register()" class="space-y-4">
+        <!-- Username Field -->
+        <ion-item lines="none" class="mb-4 bg-gray-700 rounded-lg">
+          <ion-label position="floating" class="text-gray-300">Username</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="username"
+            name="username"
+            class="text-white"></ion-input>
+        </ion-item>
+        <!-- Email Field -->
+        <ion-item lines="none" class="mb-4 bg-gray-700 rounded-lg">
+          <ion-label position="floating" class="text-gray-300">E-mail</ion-label>
+          <ion-input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            class="text-white"></ion-input>
+        </ion-item>
+        <!-- Password Field -->
+        <ion-item lines="none" class="mb-4 bg-gray-700 rounded-lg">
+          <ion-label position="floating" class="text-gray-300">Senha</ion-label>
+          <ion-input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            class="text-white"></ion-input>
+        </ion-item>
+        <!-- Register Button -->
+        <button
+          type="submit"
+          class="w-full bg-gray-600 hover:bg-blue-500 text-white text-lg font-medium py-2 rounded-lg shadow-md transition duration-200">
+          Registrar
+        </button>
+      </form>
+      <!-- Already have an account -->
       <button
-        type="submit"
-        class="w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-        Registrar
+        [routerLink]="['../login']"
+        class="w-full bg-gray-600 hover:bg-gray-600 text-white text-lg font-medium py-2 rounded-lg shadow-md transition duration-200 mt-4">
+        Já possui login? Faça login
       </button>
-    </form>
-
-    <button
-      [routerLink]="['../login']"
-      class="w-full py-2 mt-4 font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400">
-      Já possui login?
-    </button>
+    </div>
   </div>
-</div>
+
+</ion-content>
