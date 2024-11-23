@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { Firestore, collection, query, where, getDocs, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore, collection, query, where, getDocs, doc, setDoc, Timestamp } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -30,9 +30,14 @@ export class AuthService {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       const user = userCredential.user;
 
-      // Salva o username e email no Firestore
+      // Salva o uid, email, username e createdAt no Firestore
       const userDocRef = doc(this.firestore, `users/${user.uid}`);
-      await setDoc(userDocRef, { email, username });
+      await setDoc(userDocRef, {
+        uid: user.uid, // UID do usuário
+        email, // Email do usuário
+        username, // Username escolhido
+        createdAt: Timestamp.now(), // Data e hora do registro
+      });
 
       return user; // Retorna o usuário criado
     } catch (error) {
