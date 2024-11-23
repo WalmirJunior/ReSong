@@ -15,18 +15,18 @@ export class ProfileModalComponent {
   profiles = [
     {
       id: 1,
-      name: 'Integrante 1',
-      description: 'Descrição do Integrante 1',
+      name: 'Walmir',
+      description: 'Album Favorito: Máquina do Tempo - Matuê ',
     },
     {
       id: 2,
-      name: 'Integrante 2',
-      description: 'Descrição do Integrante 2',
+      name: 'Brenda',
+      description: 'Artista favorita: Taylor Swift',
     },
     {
       id: 3,
-      name: 'Integrante 3',
-      description: 'Descrição do Integrante 3',
+      name: 'Kaylaine',
+      description: 'Musica favorita: ticktock - Joji ',
     }
   ];
 
