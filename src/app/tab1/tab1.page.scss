@@ -4,3 +4,99 @@
   border-radius: 50%; /* para garantir que seja circular */
   object-fit: cover; /* para garantir que a imagem se ajuste sem distorcer */
 }
+
+.search-bar-container {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Barra de busca + botão */
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  width: 100%;
+}
+
+.close-button {
+  align-self: center;
+}
+
+.results-container {
+  margin: 10px 0;
+}
+
+.results-list {
+  display: grid;
+  gap: 10px;
+}
+
+.result-details {
+  display: grid;
+  gap: 5px;
+}
+
+.result-title {
+  font-weight: bold;
+}
+
+.result-artist {
+  color: gray;
+  font-size: 0.9em;
+}
+
+.review-card {
+  background-color: #2c2c2c;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+.review-textarea {
+  background-color: #1a1a1a;
+  color: white;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.rating-container {
+  margin-top: 15px;
+}
+
+.submit-button {
+  margin-top: 15px;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.review-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 10px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 10px;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.review-image img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.review-content {
+  display: grid;
+  gap: 5px;
+}
+
+.review-rating {
+  color: #b088f9;
+}
+
+.delete-button {
+  justify-self: end;
+}

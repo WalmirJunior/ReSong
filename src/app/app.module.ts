@@ -19,9 +19,10 @@ import { ReviewService } from './services/review.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { ModalSearchComponent } from './modal-search/modal-search.component';
 
 @NgModule({
-  declarations: [AppComponent, MenuComponent],
+  declarations: [AppComponent, MenuComponent,ModalSearchComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
       BrowserModule,

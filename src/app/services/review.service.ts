@@ -49,25 +49,30 @@ export class ReviewService {
   
     for (const doc of querySnapshot.docs) {
       const review: any = doc.data();
-      review['id'] = doc.id; // Alteração: usando acesso com ['id']
+      review['id'] = doc.id; // ID da review
   
       // Buscar o username com base no campo 'uid' no Firestore
       const usersCollection = collection(this.firestore, 'users');
-      const userQuery = query(usersCollection, where('uid', '==', review['userId'])); // Alteração: usando ['userId']
+      const userQuery = query(usersCollection, where('uid', '==', review['userId']));
       const userSnapshot = await getDocs(userQuery);
   
       if (!userSnapshot.empty) {
         const userData: any = userSnapshot.docs[0].data();
-        review['username'] = userData['username']; // Alteração: usando ['username']
+        review['username'] = userData['username'] || 'Usuário Desconhecido';
       } else {
-        review['username'] = 'Usuário Desconhecido'; // Alteração: usando ['username']
+        review['username'] = 'Usuário Desconhecido';
       }
+  
+      // Formatar o timestamp para exibir a data e hora
+      const timestamp = review['timestamp'] ? review['timestamp'].toDate() : new Date();
+      review['formattedTimestamp'] = timestamp.toLocaleString(); // Formato local de data e hora
   
       reviewsWithUsernames.push(review);
     }
   
     return reviewsWithUsernames;
   }
+  
 
   // Método para excluir a review do usuário logado
   async deleteReview(reviewId: string) {

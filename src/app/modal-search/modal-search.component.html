@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Buscar Músicas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionInput)="searchTracks()"
+    debounce="500"
+    placeholder="Digite o nome da música"
+  ></ion-searchbar>
+
+  <ion-list>
+    <ion-item *ngFor="let track of searchResults" (click)="selectTrack(track)">
+      <ion-thumbnail slot="start">
+        <img [src]="track.albumImage" alt="Album Image" />
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ track.name }}</h3>
+        <p>{{ track.artist }}</p>
+      </ion-label>
+    </ion-item>
+    
+    
+  </ion-list>
+</ion-content>
